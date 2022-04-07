@@ -1,0 +1,42 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./datasource.db"
+}
+
+model Project {
+  id   Int    @id @default(autoincrement())
+  name String
+}
+
+model Tabel {
+  id          Int     @id @default(autoincrement())
+  name        String
+  description String?
+  fields      Field[]
+}
+
+model Field {
+  id          Int      @id @default(autoincrement())
+  name        String
+  description String?
+  requrie     Boolean?
+  length      Int
+  tabel       Tabel?   @relation(fields: [tabelId], references: [id])
+  tabelId     Int?
+  dataType    DataType @relation(fields: [dataTypeId], references: [id])
+  dataTypeId  Int
+}
+
+model DataType {
+  id          Int     @id @default(autoincrement())
+  name        String
+  description String?
+  Field       Field[]
+}
