@@ -17,8 +17,8 @@ describe('AddDataService', () => {
   it('display table', async () => {
     await service.handle(11, {
       id: 1,
-      first_name: "first_name 2",
-      last_name: "last_name 2",
+      first_name: "update first_name",
+      last_name: "update last_name",
       age: 35,
     });
     expect(11).toEqual(11);

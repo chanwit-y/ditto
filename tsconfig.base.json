@@ -11,16 +11,30 @@
     "importHelpers": true,
     "target": "es2015",
     "module": "esnext",
-    "lib": ["es2017", "dom"],
+    "lib": [
+      "es2017",
+      "dom"
+    ],
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@ditto/api-interfaces": ["libs/api-interfaces/src/index.ts"],
-      "@ditto/build-logic": ["libs/build-logic/src/index.ts"],
-      "@ditto/data-source": ["libs/data-source/src/index.ts"],
-      "@ditto/firebase": ["libs/firebase/src/index.ts"]
+      "@ditto/api-interfaces": [
+        "libs/api-interfaces/src/index.ts"
+      ],
+      "@ditto/build-logic": [
+        "libs/build-logic/src/index.ts"
+      ],
+      "@ditto/data-source": [
+        "libs/data-source/src/index.ts"
+      ],
+      "@ditto/firebase": [
+        "libs/firebase/src/index.ts"
+      ]
     }
   },
-  "exclude": ["node_modules", "tmp"]
+  "exclude": [
+    "node_modules",
+    "tmp"
+  ]
 }

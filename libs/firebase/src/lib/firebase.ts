@@ -1,4 +1,4 @@
-import { app, database } from './config';
+import { app, database } from "./config";
 import {
   doc,
   getDoc,
@@ -11,10 +11,11 @@ import {
   where,
   query,
   QueryConstraint,
-} from 'firebase/firestore';
+  QueryDocumentSnapshot,
+} from "firebase/firestore";
 
 export function firebase(): string {
-  return 'firebase';
+  return "firebase";
 }
 
 export async function getDataAll(collectionName: string) {
@@ -36,23 +37,31 @@ export async function getDataFilter(
   let result: any[] = [];
   let wheres: QueryConstraint[] = [];
   for (const [key, value] of filter.entries())
-    wheres = [...wheres, where(key, '==', value)];
+    wheres = [...wheres, where(key, "==", value)];
 
-  const q = query(
-    createCollection(collectionName),
-    ...wheres
-  );
+  const q = query(createCollection(collectionName), ...wheres);
   const docs = await getDocs(q);
   docs.forEach((d) => (result = [...result, { doc_id: d.id, ...d.data() }]));
   return result;
 }
 
-export const firestore = getFirestore();
+export const firestore = getFirestore(app);
 const createCollection = <T = DocumentData>(collectionName: string) => {
   return collection(firestore, collectionName) as CollectionReference<T>;
 };
 
 export async function addData(collectionName: string, data: any) {
-  const userRef = doc(createCollection(collectionName));
+  const userRef = doc(createCollection(`${collectionName}`));
   await setDoc(userRef, data);
 }
+
+const converter = <T>() => ({
+  toFirestore: (data: T) => data,
+  fromFirestore: (snap: QueryDocumentSnapshot) => snap.data() as T,
+});
+const dataPoint = <T>(collectionPath: string) =>
+  createCollection(collectionPath).withConverter(converter<T>());
+
+export const updateData = (collectionName: string, id: string, data: any) => {
+  dataPoint(collectionName);
+};
