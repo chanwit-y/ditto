@@ -15,10 +15,10 @@ describe("UpdateDataService", () => {
   });
 
   it("update", async () => {
-    await service.handle(11, "", {
+    await service.handle(11, "uuftrCTOEmxDJ5MtWmqQ", {
       id: 1,
-      first_name: "update chanwit",
-      last_name: "update yimneam",
+      first_name: "update chanwit 1111",
+      last_name: "update yimneam 2222",
       age: 35,
     });
     expect(11).toEqual(11);

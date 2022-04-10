@@ -59,60 +59,10 @@ export async function addData(collectionName: string, data: any) {
 export const updateData = async (
   collectionName: string,
   id: string,
-  data: any
+  field: string,
+  value: unknown,
+  ...moreFieldsAndValues: unknown[]
 ) => {
-  const userRef = doc(database, collectionName, "user_12345");
-  await updateDoc(userRef, "first_name", "chanwit update", ["last_name", "yimneam update"]);
+  const userRef = doc(database, collectionName, id);
+  await updateDoc(userRef, field, value, ...moreFieldsAndValues);
 };
-
-// const converter = <T>() => ({
-//   toFirestore: (data: T) => data,
-//   fromFirestore: (snap: QueryDocumentSnapshot, options: SnapshotOptions) =>
-//     snap.data(options) as T,
-// });
-// const dataPoint = <T>(collectionPath: string) =>
-//   createCollection(collectionPath).withConverter(converter<T>());
-
-
-/**
- * Converter used by `withConverter()` to transform user objects of type `T`
- * into Firestore data.
- *
- * Using the converter allows you to specify generic type arguments when
- * storing and retrieving objects from Firestore.
- *
- * @example
- * ```typescript
- * class Post {
- *   constructor(readonly title: string, readonly author: string) {}
- *
- *   toString(): string {
- *     return this.title + ', by ' + this.author;
- *   }
- * }
- *
- * const postConverter = {
- *   toFirestore(post: WithFieldValue<Post>): DocumentData {
- *     return {title: post.title, author: post.author};
- *   },
- *   fromFirestore(
- *     snapshot: QueryDocumentSnapshot,
- *     options: SnapshotOptions
- *   ): Post {
- *     const data = snapshot.data(options)!;
- *     return new Post(data.title, data.author);
- *   }
- * };
- *
- * const postSnap = await firebase.firestore()
- *   .collection('posts')
- *   .withConverter(postConverter)
- *   .doc().get();
- * const post = postSnap.data();
- * if (post !== undefined) {
- *   post.title; // string
- *   post.toString(); // Should be defined
- *   post.someNonExistentProperty; // TS error
- * }
- * ```
- */
