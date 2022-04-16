@@ -11,8 +11,9 @@ datasource db {
 }
 
 model Project {
-  id   Int    @id @default(autoincrement())
-  name String
+  id    Int     @id @default(autoincrement())
+  name  String
+  tabel Tabel[]
 }
 
 model Tabel {
@@ -23,6 +24,8 @@ model Tabel {
   relation        Relation[]
   relationId      Int?
   TabelOnRelation TabelOnRelation[]
+  Project         Project?          @relation(fields: [projectId], references: [id])
+  projectId       Int?
 }
 
 model Field {
