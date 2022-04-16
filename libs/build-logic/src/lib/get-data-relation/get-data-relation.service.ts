@@ -7,23 +7,23 @@ export class GetDataRelationService {
   constructor(private _tabelService: TabelService) {}
 
   public async handle(tabelId: number, id: string) {
+    let result: any;
     const tabel = await this._tabelService.findById(tabelId);
-
     const dataMainTabel = await getDataById(tabel?.name ?? "", id);
 
-    console.log(dataMainTabel);
-    // console.log(dataMainTabel && dataMainTabel["position_id"]);
-  
-    const corssId = dataMainTabel ? dataMainTabel["position_id"] : "";
+    result = dataMainTabel;
 
     for (const tr of tabel?.TabelOnRelation ?? []) {
+      const corssId = dataMainTabel
+        ? dataMainTabel[tr?.crossFieldName ?? ""]
+        : "";
       const crossTabel = await this._tabelService.findById(tr.crossId);
       const dataCrossTabel = await getDataById(crossTabel?.name ?? "", corssId);
-
-      console.log(dataCrossTabel);
+      result = { ...result, [crossTabel?.name?.toLowerCase() ?? ""]: dataCrossTabel };
     }
 
-    // console.log(tabel?.name);
-    // console.log(id);
+    console.log(result);
+
+    return result;
   }
 }

@@ -39,6 +39,11 @@ export class TabelService {
               dataType: true,
             },
           },
+          relation: {
+            include: {
+              tabel: true,
+            },
+          },
           TabelOnRelation: {
             include: {
               relation: true,
