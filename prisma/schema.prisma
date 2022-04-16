@@ -16,10 +16,13 @@ model Project {
 }
 
 model Tabel {
-  id          Int     @id @default(autoincrement())
-  name        String
-  description String?
-  fields      Field[]
+  id              Int               @id @default(autoincrement())
+  name            String
+  description     String?
+  fields          Field[]
+  relation        Relation[]
+  relationId      Int?
+  TabelOnRelation TabelOnRelation[]
 }
 
 model Field {
@@ -39,4 +42,23 @@ model DataType {
   name        String
   description String?
   Field       Field[]
+}
+
+model Relation {
+  id              Int               @id @default(autoincrement())
+  name            String
+  type            Int
+  tabel           Tabel[]
+  TabelOnRelation TabelOnRelation[]
+}
+
+model TabelOnRelation {
+  tabel      Tabel    @relation(fields: [tabelId], references: [id])
+  tabelId    Int
+  relation   Relation @relation(fields: [relationId], references: [id])
+  relationId Int
+  main       String
+  cross      String
+
+  @@id([tabelId, relationId])
 }
