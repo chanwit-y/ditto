@@ -14,10 +14,6 @@ describe("GetDataRelationService", () => {
     service = module.get<GetDataRelationService>(GetDataRelationService);
   });
 
-  it("should be defined", () => {
-    expect(service).toBeDefined();
-  });
-
   it("get tabel by id", async () => {
     await service.handle(11, "user_12345");
     expect(10).toBeGreaterThan(0);
