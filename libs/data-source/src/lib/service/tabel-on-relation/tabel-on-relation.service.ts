@@ -31,8 +31,8 @@ export class TabelOnRelationService {
     try {
       return await this._prisma.tabelOnRelation.findUnique({
         where: {
-          tabelId_relationId: {
-            tabelId: tabelId,
+          mainTabelId_relationId: {
+            mainTabelId: tabelId,
             relationId: relationId,
           },
         },
@@ -59,8 +59,8 @@ export class TabelOnRelationService {
         create: this.transform(data),
         update: data,
         where: {
-          tabelId_relationId: {
-            tabelId: data.tabelId,
+          mainTabelId_relationId: {
+            mainTabelId: data.mainTabelId,
             relationId: data.relationId,
           },
         },
@@ -91,8 +91,8 @@ export class TabelOnRelationService {
       return await this._prisma.tabelOnRelation.update({
         data: data,
         where: {
-          tabelId_relationId: {
-            tabelId: data.tabelId,
+          mainTabelId_relationId: {
+            mainTabelId: data.mainTabelId,
             relationId: data.relationId,
           },
         },

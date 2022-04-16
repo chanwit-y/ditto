@@ -56,12 +56,12 @@ model Relation {
 }
 
 model TabelOnRelation {
-  tabel      Tabel    @relation(fields: [tabelId], references: [id])
-  tabelId    Int
+  mainTabel      Tabel    @relation(fields: [mainTabelId], references: [id])
+  mainTabelId    Int
   relation   Relation @relation(fields: [relationId], references: [id])
   relationId Int
   main       String
   cross      String
 
-  @@id([tabelId, relationId])
+  @@id([mainTabelId, relationId])
 }
