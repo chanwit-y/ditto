@@ -1,7 +1,7 @@
-import { Injectable } from '@nestjs/common';
-import { Tabel } from '@prisma/client';
-import { VaridateType } from '../../@types/VaridateType';
-import { PrismaService } from '../../prisma/prisma.service';
+import { Injectable } from "@nestjs/common";
+import { Tabel } from "@prisma/client";
+import { VaridateType } from "../../@types/VaridateType";
+import { PrismaService } from "../../prisma/prisma.service";
 
 @Injectable()
 export class TabelService {
@@ -9,7 +9,7 @@ export class TabelService {
 
   private varidate(data: Tabel): VaridateType[] {
     let result: VaridateType[] = [];
-    if (!!!data.name) result.push({ message: 'name is requrie!' });
+    if (!!!data.name) result.push({ message: "name is requrie!" });
 
     return result;
   }
@@ -37,6 +37,12 @@ export class TabelService {
           fields: {
             include: {
               dataType: true,
+            },
+          },
+          TabelOnRelation: {
+            include: {
+              relation: true,
+              mainTabel: true,
             },
           },
         },
@@ -77,13 +83,13 @@ export class TabelService {
     try {
       const varidate = this.varidate({
         id: 0,
-        name: data?.name ?? '',
+        name: data?.name ?? "",
       } as Tabel);
       if (varidate.length > 0) throw varidate;
 
       return await this._prisma.tabel.create({
         data: {
-          name: data.name ?? '',
+          name: data.name ?? "",
           description: data.description,
         },
       });
