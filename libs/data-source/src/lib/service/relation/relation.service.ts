@@ -1,33 +1,29 @@
 import { Injectable } from '@nestjs/common';
-import { Field } from '@prisma/client';
+import { Relation } from '@prisma/client';
 import { VaridateType } from '../../@types/VaridateType';
 import { PrismaService } from '../../prisma/prisma.service';
 
 @Injectable()
-export class FieldService {
+export class RelationService {
   constructor(private _prisma: PrismaService) {}
 
-  private varidate(data: Field): VaridateType[] {
+  private varidate(data:Relation): VaridateType[] {
     let result: VaridateType[] = [];
     if (!!!data.name) result.push({ message: 'name is requrie!' });
-
+    
     return result;
   }
 
-  private transform(data: Partial<Field>): Field {
+  private transform(data: Partial<Relation>):Relation {
     return {
       id: 0,
       name: data?.name ?? '',
-      description: data?.description ?? '',
-      length: data?.length ?? 0,
-      tabelId: 0,
-      dataTypeId: 0,
-    } as Field;
+    } as Relation;
   }
 
   public async findAll() {
     try {
-      return await this._prisma.field.findMany();
+      return await this._prisma.relation.findMany();
     } catch (ex) {
       throw ex;
     }
@@ -35,7 +31,7 @@ export class FieldService {
 
   public async findById(id: number) {
     try {
-      return await this._prisma.field.findUnique({ where: { id } });
+      return await this._prisma.relation.findUnique({ where: { id } });
     } catch (ex) {
       throw ex;
     }
@@ -43,48 +39,48 @@ export class FieldService {
 
   public async count() {
     try {
-      return await this._prisma.field.count();
+      return await this._prisma.relation.count();
     } catch (ex) {
       throw ex;
     }
   }
 
-  public async upsert(data: Field) {
+  public async upsert(data: Relation) {
     try {
       const varidate = this.varidate(data);
       if (varidate.length > 0) throw varidate;
 
-      return await this._prisma.field.upsert({
-        create: this.transform(data),
-        update: data,
-        where: { id: data.id },
+      return await this._prisma.relation.upsert({
+	create: this.transform(data),
+	update: data,
+	where: { id: data.id },
       });
     } catch (ex) {
       throw ex;
     }
   }
 
-  public async create(data: Partial<Field>) {
+  public async create(data: Partial<Relation>) {
     try {
       const varidate = this.varidate(this.transform(data));
       if (varidate.length > 0) throw varidate;
 
-      return await this._prisma.field.create({
-        data: this.transform(data),
+      return await this._prisma.relation.create({
+	data: this.transform(data),
       });
     } catch (ex) {
       throw ex;
     }
   }
 
-  public async update(data: Field) {
+  public async update(data: Relation) {
     try {
       const varidate = this.varidate(data);
       if (varidate.length > 0) throw varidate;
 
-      return await this._prisma.field.update({
-        data: data,
-        where: { id: data.id },
+      return await this._prisma.relation.update({
+	data: data,
+	where: { id: data.id },
       });
     } catch (ex) {
       throw ex;

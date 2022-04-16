@@ -1,7 +1,7 @@
-import { Injectable } from '@nestjs/common';
-import { Project } from '@prisma/client';
-import { VaridateType } from '../../@types/VaridateType';
-import { PrismaService } from '../../prisma/prisma.service';
+import { Injectable } from "@nestjs/common";
+import { Project } from "@prisma/client";
+import { VaridateType } from "../../@types/VaridateType";
+import { PrismaService } from "../../prisma/prisma.service";
 
 @Injectable()
 export class ProjectService {
@@ -9,8 +9,8 @@ export class ProjectService {
 
   private varidate(data: Project): VaridateType[] {
     let result: VaridateType[] = [];
-    if (!!!data.name) result.push({ message: 'name is requrie!' });
-    
+    if (!!!data.name) result.push({ message: "name is requrie!" });
+
     return result;
   }
 
@@ -44,11 +44,11 @@ export class ProjectService {
       if (varidate.length > 0) throw varidate;
 
       return await this._prisma.project.upsert({
-	create: {
-	  name: data.name ?? "",
-	},
-	update: data,
-	where: { id: data.id },
+        create: {
+          name: data.name ?? "",
+        },
+        update: data,
+        where: { id: data.id },
       });
     } catch (ex) {
       throw ex;
@@ -58,29 +58,29 @@ export class ProjectService {
   public async create(data: Partial<Project>) {
     try {
       const varidate = this.varidate({
-	      id: 0,
-	      name: data?.name ??  "" ,
+        id: 0,
+        name: data?.name ?? "",
       });
       if (varidate.length > 0) throw varidate;
 
       return await this._prisma.project.create({
-	data: {
-	  name: data.name ?? "",
-	},
+        data: {
+          name: data.name ?? "",
+        },
       });
     } catch (ex) {
       throw ex;
     }
   }
 
-  public async update(data:Project) {
+  public async update(data: Project) {
     try {
       const varidate = this.varidate(data);
       if (varidate.length > 0) throw varidate;
 
       return await this._prisma.project.update({
-	data: data,
-	where: { id: data.id },
+        data: data,
+        where: { id: data.id },
       });
     } catch (ex) {
       throw ex;

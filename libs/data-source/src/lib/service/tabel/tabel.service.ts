@@ -78,8 +78,7 @@ export class TabelService {
       const varidate = this.varidate({
         id: 0,
         name: data?.name ?? '',
-        description: '',
-      });
+      } as Tabel);
       if (varidate.length > 0) throw varidate;
 
       return await this._prisma.tabel.create({
